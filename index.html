@@ -802,6 +802,18 @@
           <h3>Ir al boliche</h3>
           <p>Una cita con competencia amistosa, risas y el derecho de presumir quién ganó.</p>
         </article>
+
+        <article class="plan-card" data-plan="Pasar toda la vida juntos 24/7 ♾️❤️" onclick="selectPlan(this)">
+          <div class="plan-icon">♾️</div>
+          <h3>Pasar toda la vida juntos 24/7</h3>
+          <p>Sin fecha de caducidad. Un plan donde nos elegimos todos los días, compartimos todo y construimos nuestro camino juntos.</p>
+        </article>
+
+        <article class="plan-card" data-plan="Tú propones la idea 💡✨" onclick="selectPlan(this)">
+          <div class="plan-icon">💡</div>
+          <h3>Tú propones el plan</h3>
+          <p>Sorpréndeme con lo que tengas en mente. Puedes escribirme los detalles en la nota de abajo.</p>
+        </article>
       </div>
     </section>
 
@@ -987,15 +999,7 @@
   <div id="toast" class="toast">Plan seleccionado</div>
 
   <script>
-    /*
-      IMPORTANTE:
-      Cambia el número de abajo por TU número de WhatsApp con código de país.
-      Para México: 52 + número a 10 dígitos.
-      Ejemplo: 523312345678
-
-      NO agregues +, espacios, guiones ni paréntesis.
-    */
-    const WHATSAPP_NUMBER = "3335955413";
+    const WHATSAPP_NUMBER = "523335955413";
 
     const planInput = document.getElementById("planInput");
     const selectedPlanText = document.getElementById("selectedPlanText");
@@ -1005,11 +1009,6 @@
     const toast = document.getElementById("toast");
 
     function buildTimeOptions() {
-      /*
-        Intervalos de 30 minutos:
-        12:00 PM hasta 11:30 PM, más 12:00 AM.
-        Si prefieres SOLO horas exactas, cambia stepMinutes a 60.
-      */
       const stepMinutes = 30;
 
       for (let total = 12 * 60; total < 24 * 60; total += stepMinutes) {
@@ -1096,12 +1095,10 @@ ${timeText}${extra}
 
 Ya quedó agendado ✨`;
 
-      // Código corregido:
-return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
     }
 
     function launchYellowCelebration() {
-      // Confeti amarillo ligero hecho sin librerías externas.
       const colors = ["#ffd84d", "#ffe873", "#f5b82e", "#fff3a3"];
 
       for (let i = 0; i < 46; i++) {
@@ -1144,7 +1141,7 @@ return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
       const notes = notesInput.value.trim();
 
       if (!plan) {
-        showToast("Primero elige uno de los cuatro planes ❤️");
+        showToast("Primero elige una de las opciones ❤️");
         document.getElementById("planes").scrollIntoView({ behavior: "smooth" });
         return;
       }
@@ -1184,12 +1181,10 @@ return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
       confirmation.scrollIntoView({ behavior: "smooth", block: "start" });
 
-      // Abrimos WhatsApp con el mensaje listo.
       setTimeout(() => {
         window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       }, 450);
 
-      // Después se muestra la sorpresa visual automáticamente.
       setTimeout(() => {
         surprise.scrollIntoView({ behavior: "smooth", block: "center" });
       }, 1800);
@@ -1219,7 +1214,6 @@ return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
       }
     }
 
-    // Fecha mínima = hoy.
     const today = new Date();
     const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000)
       .toISOString()
