@@ -1,1276 +1,721 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b0b10" />
-  <title>Nuestra Cita 💛</title>
-
-  <style>
-    :root {
-      --bg: #08090d;
-      --panel: rgba(18, 17, 23, 0.86);
-      --panel-2: rgba(28, 22, 25, 0.82);
-      --line: rgba(255, 91, 109, 0.22);
-      --text: #f7f4f5;
-      --muted: #aaa2a7;
-      --red: #ff425d;
-      --red-2: #d80d32;
-      --gold: #ffd84d;
-      --gold-2: #f5b82e;
-      --green: #56a85a;
-      --shadow: 0 24px 80px rgba(0,0,0,.46);
-      --radius: 28px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      min-height: 100vh;
-      color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at 20% 5%, rgba(216,13,50,.18), transparent 26rem),
-        radial-gradient(circle at 86% 44%, rgba(255,216,77,.07), transparent 24rem),
-        linear-gradient(180deg, #090910 0%, #08080c 45%, #050609 100%);
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .18;
-      background-image:
-        linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
-      background-size: 44px 44px;
-      mask-image: linear-gradient(to bottom, black, transparent 78%);
-      z-index: -3;
-    }
-
-    .code-rain {
-      position: fixed;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: -2;
-      opacity: .1;
-    }
-
-    .code-line {
-      position: absolute;
-      top: -20%;
-      color: #ff6177;
-      font: 500 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      animation: fall linear infinite;
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-      white-space: nowrap;
-      filter: blur(.15px);
-    }
-
-    @keyframes fall {
-      from { transform: translateY(-15vh); }
-      to { transform: translateY(130vh); }
-    }
-
-    .wrap {
-      width: min(1020px, calc(100% - 30px));
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero {
-      min-height: 78vh;
-      display: grid;
-      place-items: center;
-      padding: 72px 0 44px;
-      text-align: center;
-    }
-
-    .hero-card {
-      max-width: 790px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      border: 1px solid rgba(255,216,77,.26);
-      border-radius: 999px;
-      background: rgba(255,216,77,.06);
-      color: #ffe993;
-      font-size: 12px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      margin-bottom: 22px;
-    }
-
-    h1 {
-      font-size: clamp(46px, 8vw, 88px);
-      line-height: .98;
-      letter-spacing: -.045em;
-      margin-bottom: 22px;
-      background: linear-gradient(120deg, #fff 3%, #ff7f90 45%, #ffd84d 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 0 40px rgba(255,66,93,.12);
-    }
-
-    .hero p {
-      color: #c8c0c4;
-      max-width: 680px;
-      margin: 0 auto;
-      font-size: clamp(16px, 2.6vw, 20px);
-      line-height: 1.7;
-    }
-
-    .hero-note {
-      margin-top: 14px !important;
-      font-size: 14px !important;
-      color: #8f898d !important;
-    }
-
-    .cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 32px;
-      padding: 15px 24px;
-      border: 0;
-      border-radius: 999px;
-      text-decoration: none;
-      color: white;
-      font-weight: 800;
-      background: linear-gradient(135deg, #b80c29, #ff425d);
-      box-shadow: 0 14px 38px rgba(216,13,50,.28);
-      transition: .25s ease;
-    }
-
-    .cta:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 18px 48px rgba(255,66,93,.36);
-    }
-
-    section {
-      padding: 54px 0;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 12px;
-      font-size: clamp(28px, 4vw, 42px);
-      letter-spacing: -.03em;
-    }
-
-    .section-subtitle {
-      text-align: center;
-      max-width: 680px;
-      margin: 0 auto 34px;
-      color: var(--muted);
-      line-height: 1.7;
-      font-size: 14px;
-    }
-
-    .plans {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .plan-card {
-      position: relative;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.012)),
-        var(--panel);
-      padding: 22px;
-      cursor: pointer;
-      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
-      overflow: hidden;
-      min-height: 190px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .plan-card::after {
-      content: "";
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      right: -70px;
-      bottom: -80px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,66,93,.17), transparent 70%);
-      transition: .25s ease;
-    }
-
-    .plan-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255,66,93,.55);
-      box-shadow: 0 18px 50px rgba(0,0,0,.3), 0 0 26px rgba(255,66,93,.08);
-    }
-
-    .plan-card.selected {
-      border-color: rgba(255,216,77,.7);
-      box-shadow: 0 0 0 2px rgba(255,216,77,.08), 0 18px 50px rgba(0,0,0,.38);
-      background:
-        linear-gradient(180deg, rgba(255,216,77,.055), rgba(255,66,93,.025)),
-        var(--panel);
-    }
-
-    .plan-card.selected::before {
-      content: "✓ Elegido";
-      position: absolute;
-      right: 16px;
-      top: 16px;
-      color: #17120b;
-      background: var(--gold);
-      border-radius: 999px;
-      padding: 6px 10px;
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: .03em;
-      z-index: 2;
-    }
-
-    .plan-icon {
-      width: 54px;
-      height: 54px;
-      display: grid;
-      place-items: center;
-      border-radius: 18px;
-      background: rgba(255,66,93,.12);
-      border: 1px solid rgba(255,66,93,.19);
-      font-size: 27px;
-      margin-bottom: 18px;
-      flex-shrink: 0;
-    }
-
-    .plan-card h3 {
-      font-size: 18px;
-      margin-bottom: 8px;
-    }
-
-    .plan-card p {
-      color: #a8a0a4;
-      font-size: 13px;
-      line-height: 1.65;
-      max-width: 92%;
-    }
-
-    .plan-img {
-      width: 100%;
-      height: 180px;
-      object-fit: contain;
-      background-color: rgba(0, 0, 0, 0.4);
-      border-radius: 14px;
-      margin-top: auto;
-      padding: 6px;
-      border: 1px solid rgba(255,255,255,.1);
-    }
-
-    .panel {
-      max-width: 760px;
-      margin: 0 auto;
-      border: 1px solid rgba(255,66,93,.24);
-      border-radius: var(--radius);
-      padding: clamp(22px, 4vw, 38px);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.012)),
-        rgba(15,15,20,.9);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-    }
-
-    .selected-plan {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border: 1px solid rgba(255,216,77,.16);
-      background: rgba(255,216,77,.055);
-      padding: 14px 16px;
-      border-radius: 18px;
-      margin-bottom: 24px;
-    }
-
-    .selected-plan strong {
-      display: block;
-      margin-top: 2px;
-      color: #fff2b2;
-      white-space: pre-line;
-    }
-
-    .mini {
-      font-size: 11px;
-      color: #988f93;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .field {
-      margin-bottom: 18px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #d8d1d4;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      border: 1px solid #2d2930;
-      background: #101117;
-      color: white;
-      border-radius: 15px;
-      padding: 14px 14px;
-      outline: none;
-      font: inherit;
-      transition: border-color .2s ease, box-shadow .2s ease;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: rgba(255,66,93,.8);
-      box-shadow: 0 0 0 4px rgba(255,66,93,.09);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 96px;
-    }
-
-    .submit {
-      width: 100%;
-      border: 0;
-      border-radius: 16px;
-      padding: 16px 18px;
-      color: #fff;
-      background: linear-gradient(135deg, #b90929, #ff425d);
-      box-shadow: 0 16px 38px rgba(216,13,50,.25);
-      font-weight: 900;
-      letter-spacing: .02em;
-      cursor: pointer;
-      transition: .25s ease;
-    }
-
-    .submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 44px rgba(255,66,93,.35);
-    }
-
-    .hint {
-      text-align: center;
-      margin-top: 12px;
-      color: #7f777b;
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .ticket {
-      max-width: 620px;
-      margin: 0 auto;
-      border: 1px solid rgba(255,216,77,.35);
-      border-radius: 28px;
-      overflow: hidden;
-      background: rgba(17,16,20,.94);
-      box-shadow: 0 26px 80px rgba(0,0,0,.48), 0 0 42px rgba(255,216,77,.06);
-    }
-
-    .ticket-head {
-      padding: 18px 22px;
-      text-align: center;
-      background: linear-gradient(120deg, #7f071d, #d80d32, #790816);
-      border-bottom: 1px solid rgba(255,216,77,.24);
-    }
-
-    .ticket-head b {
-      color: #ffe78d;
-      letter-spacing: .12em;
-      font-size: 14px;
-    }
-
-    .ticket-body {
-      padding: 26px;
-    }
-
-    .ticket-title {
-      text-align: center;
-      font-size: 34px;
-      margin-bottom: 20px;
-    }
-
-    .ticket-grid {
-      display: grid;
-      gap: 12px;
-    }
-
-    .ticket-row {
-      display: grid;
-      grid-template-columns: 34px 1fr;
-      align-items: start;
-      gap: 12px;
-      padding: 13px 14px;
-      border: 1px solid #2b2830;
-      background: #0e0f14;
-      border-radius: 16px;
-    }
-
-    .ticket-row .i {
-      font-size: 20px;
-      line-height: 1.4;
-    }
-
-    .ticket-row small {
-      color: #7d757a;
-      font-size: 10px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-    }
-
-    .ticket-row strong {
-      display: block;
-      margin-top: 2px;
-      line-height: 1.5;
-      font-size: 14px;
-      white-space: pre-line;
-    }
-
-    .whatsapp-button {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-      text-decoration: none;
-      color: #07190d;
-      background: linear-gradient(135deg, #35e777, #25d366);
-      font-weight: 900;
-      padding: 14px 16px;
-      border-radius: 16px;
-      margin-top: 18px;
-      transition: .25s ease;
-    }
-
-    .whatsapp-button:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.06);
-    }
-
-    /* Yellow flower surprise */
-    .surprise {
-      position: relative;
-      max-width: 760px;
-      margin: 0 auto;
-      border-radius: 30px;
-      overflow: hidden;
-      border: 1px solid rgba(255,216,77,.42);
-      background:
-        radial-gradient(circle at 50% 0%, rgba(255,216,77,.15), transparent 38%),
-        rgba(16,15,17,.94);
-      box-shadow: 0 28px 90px rgba(0,0,0,.55), 0 0 50px rgba(255,216,77,.08);
-      padding: 34px 24px 38px;
-      text-align: center;
-    }
-
-    .surprise h2 {
-      font-size: clamp(34px, 6vw, 58px);
-      color: #ffe678;
-      margin-bottom: 10px;
-      letter-spacing: -.035em;
-    }
-
-    .surprise .intro {
-      color: #d7cfb0;
-      max-width: 620px;
-      margin: 0 auto;
-      line-height: 1.7;
-      font-size: 15px;
-    }
-
-    .bouquet {
-      position: relative;
-      width: min(430px, 92%);
-      height: 380px;
-      margin: 26px auto 10px;
-    }
-
-    .stem {
-      position: absolute;
-      width: 7px;
-      height: 190px;
-      background: linear-gradient(#4d9b52, #235729);
-      bottom: 54px;
-      left: 50%;
-      border-radius: 10px;
-      transform-origin: bottom center;
-      animation: stemGrow 1.2s both ease-out;
-    }
-
-    .stem.s1 { transform: translateX(-50%) rotate(0deg); height: 220px; }
-    .stem.s2 { transform: translateX(-50%) rotate(-17deg); height: 195px; animation-delay: .12s; }
-    .stem.s3 { transform: translateX(-50%) rotate(17deg); height: 195px; animation-delay: .18s; }
-    .stem.s4 { transform: translateX(-50%) rotate(-31deg); height: 170px; animation-delay: .24s; }
-    .stem.s5 { transform: translateX(-50%) rotate(31deg); height: 170px; animation-delay: .30s; }
-
-    @keyframes stemGrow {
-      from { opacity: 0; scale: 1 .05; }
-      to { opacity: 1; scale: 1 1; }
-    }
-
-    .flower {
-      position: absolute;
-      width: 92px;
-      height: 92px;
-      transform: translate(-50%, -50%) scale(0);
-      animation: bloom 1.05s cubic-bezier(.17,.84,.44,1.35) forwards;
-      filter: drop-shadow(0 8px 18px rgba(255,216,77,.18));
-    }
-
-    .flower.f1 { left: 50%; top: 80px; animation-delay: .65s; }
-    .flower.f2 { left: 34%; top: 128px; animation-delay: .8s; }
-    .flower.f3 { left: 66%; top: 128px; animation-delay: .95s; }
-    .flower.f4 { left: 24%; top: 182px; animation-delay: 1.1s; }
-    .flower.f5 { left: 76%; top: 182px; animation-delay: 1.25s; }
-
-    @keyframes bloom {
-      0% { transform: translate(-50%, -50%) scale(0) rotate(-18deg); opacity: 0; }
-      100% { transform: translate(-50%, -50%) scale(1) rotate(0); opacity: 1; }
-    }
-
-    .petal {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 30px;
-      height: 48px;
-      margin-left: -15px;
-      margin-top: -42px;
-      border-radius: 50% 50% 46% 46%;
-      transform-origin: 15px 42px;
-      background: linear-gradient(180deg, #fff080 0%, #ffd84d 48%, #f3b62d 100%);
-      box-shadow: inset 0 -5px 9px rgba(187,119,8,.16);
-    }
-
-    .petal:nth-child(1) { transform: rotate(0deg); }
-    .petal:nth-child(2) { transform: rotate(45deg); }
-    .petal:nth-child(3) { transform: rotate(90deg); }
-    .petal:nth-child(4) { transform: rotate(135deg); }
-    .petal:nth-child(5) { transform: rotate(180deg); }
-    .petal:nth-child(6) { transform: rotate(225deg); }
-    .petal:nth-child(7) { transform: rotate(270deg); }
-    .petal:nth-child(8) { transform: rotate(315deg); }
-
-    .center {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 32px;
-      height: 32px;
-      margin: -16px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 34% 30%, #875b18, #4b2d0c 70%);
-      border: 2px solid #b17b1c;
-      z-index: 2;
-    }
-
-    .leaf {
-      position: absolute;
-      width: 56px;
-      height: 28px;
-      border-radius: 100% 0 100% 0;
-      background: linear-gradient(135deg, #5fb865, #2c6f35);
-      bottom: 125px;
-      left: calc(50% - 60px);
-      transform: rotate(18deg) scale(0);
-      transform-origin: right center;
-      animation: leafOpen .75s 1.4s forwards ease-out;
-    }
-
-    .leaf.r {
-      left: calc(50% + 8px);
-      transform: rotate(160deg) scale(0);
-      animation-delay: 1.55s;
-    }
-
-    @keyframes leafOpen {
-      to { transform: rotate(18deg) scale(1); }
-    }
-
-    .leaf.r {
-      animation-name: leafOpenRight;
-    }
-
-    @keyframes leafOpenRight {
-      to { transform: rotate(160deg) scale(1); }
-    }
-
-    .wrap-paper {
-      position: absolute;
-      left: 50%;
-      bottom: 18px;
-      width: 180px;
-      height: 120px;
-      transform: translateX(-50%);
-      clip-path: polygon(12% 0, 88% 0, 72% 100%, 28% 100%);
-      background: linear-gradient(135deg, #2a2520, #171513);
-      border: 1px solid rgba(255,216,77,.28);
-    }
-
-    .ribbon {
-      position: absolute;
-      left: 50%;
-      bottom: 52px;
-      width: 86px;
-      height: 22px;
-      transform: translateX(-50%);
-      background: linear-gradient(90deg, #f2b92e, #ffe66c, #e6a51d);
-      border-radius: 12px;
-      box-shadow: 0 5px 16px rgba(255,216,77,.18);
-    }
-
-    .spark {
-      position: absolute;
-      color: #ffe873;
-      font-size: 16px;
-      animation: sparkle 1.6s infinite ease-in-out;
-      opacity: 0;
-    }
-
-    .spark.s1 { left: 11%; top: 20%; animation-delay: .15s; }
-    .spark.s2 { right: 12%; top: 27%; animation-delay: .55s; }
-    .spark.s3 { left: 20%; top: 52%; animation-delay: .9s; }
-    .spark.s4 { right: 20%; top: 49%; animation-delay: 1.25s; }
-
-    @keyframes sparkle {
-      0%,100% { opacity: .15; transform: scale(.7) rotate(0); }
-      50% { opacity: 1; transform: scale(1.35) rotate(24deg); }
-    }
-
-    .apology {
-      margin: 18px auto 0;
-      max-width: 620px;
-      text-align: left;
-      border: 1px solid rgba(255,216,77,.2);
-      background: rgba(255,216,77,.04);
-      border-radius: 20px;
-      padding: 18px 20px;
-      color: #ece4c6;
-      line-height: 1.75;
-      font-size: 14px;
-    }
-
-    .apology b {
-      color: #ffe873;
-    }
-
-    footer {
-      text-align: center;
-      padding: 36px 0 42px;
-      color: #625c60;
-      font-size: 12px;
-    }
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 24px;
-      transform: translate(-50%, 18px);
-      background: rgba(18,18,22,.96);
-      color: #fff;
-      border: 1px solid rgba(255,216,77,.28);
-      border-radius: 15px;
-      padding: 12px 16px;
-      font-size: 13px;
-      opacity: 0;
-      pointer-events: none;
-      transition: .3s ease;
-      z-index: 40;
-      box-shadow: 0 15px 45px rgba(0,0,0,.45);
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
-
-    @media (max-width: 720px) {
-      .plans,
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        min-height: 72vh;
-        padding-top: 54px;
-      }
-
-      .plan-card {
-        min-height: auto;
-      }
-
-      .ticket-body {
-        padding: 20px;
-      }
-
-      .bouquet {
-        height: 340px;
-      }
-
-      .flower {
-        width: 82px;
-        height: 82px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>200 Razones para Amarte ❤️🖤</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at top center, #2b060d 0%, #0f0205 45%, #050102 100%);
+            min-height: 100vh;
+            color: #fecdd3;
+        }
+
+        .font-cursive {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Heart particle canvas styling */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Dark Glassmorphism effects */
+        .glass-card {
+            background: rgba(18, 5, 8, 0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(225, 29, 72, 0.25);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8), 0 0 15px rgba(225, 29, 72, 0.08);
+        }
+
+        .glass-header {
+            background: rgba(10, 2, 4, 0.85);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(225, 29, 72, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Red Neon glow effect */
+        .red-glow {
+            box-shadow: 0 0 20px rgba(225, 29, 72, 0.35);
+        }
+
+        .red-glow-lg {
+            box-shadow: 0 0 35px rgba(225, 29, 72, 0.5);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d0204;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #9f1239;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e11d48;
+        }
+
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            border-color: rgba(225, 29, 72, 0.6);
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.9), 0 0 25px rgba(225, 29, 72, 0.3);
+        }
+
+        /* Modal animation */
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.9) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .animate-modal {
+            animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
 </head>
+<body class="relative overflow-x-hidden selection:bg-rose-900 selection:text-white">
 
-<body>
-  <div id="codeRain" class="code-rain" aria-hidden="true"></div>
+    <canvas id="particles-canvas"></canvas>
 
-  <main class="wrap">
-    <section class="hero">
-      <div class="hero-card">
-        <div class="eyebrow">⌨️ una invitación hecha especialmente para ti</div>
-        <h1>¿Tenemos una cita?</h1>
-        <p>
-          Tú eliges el plan (¡o los planes!), el día y la hora. Yo solo necesito saber cuándo pasar por ti
-          y encargarme de que pasemos un momento bonito juntos. ❤️
-        </p>
-        <p class="hero-note">
-          Prometo que esta vez el código sí compila a la primera… o por lo menos la cita. 😅
-        </p>
-        <a class="cta" href="#planes">Elegir nuestros planes <span>→</span></a>
-      </div>
-    </section>
+    <!-- Content Wrapper -->
+    <div class="relative z-10 flex flex-col min-h-screen">
 
-    <section id="planes">
-      <h2 class="section-title">Elige nuestros planes</h2>
-      <p class="section-subtitle">
-        Puedes seleccionar uno o varios planes combinados. Después solo faltará elegir el día y la hora.
-      </p>
+        <header class="glass-header sticky top-0 z-30 px-4 py-4 transition-all">
+            <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-rose-600 to-red-950 text-white flex items-center justify-center red-glow border border-rose-500/50">
+                        <i data-lucide="heart" class="w-6 h-6 fill-rose-500 text-rose-300 animate-pulse"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-cursive text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-red-500 to-rose-300 leading-tight">200 Razones para Amarte</h1>
+                        <p class="text-xs text-rose-300/60 font-medium">Un regalo de amor eterno en la penumbra de mis pensamientos</p>
+                    </div>
+                </div>
 
-      <div class="plans">
-        <article class="plan-card" data-plan="Hamburguesas en Carl's Jr. 🍔" onclick="togglePlan(this)">
-          <div class="plan-icon">🍔</div>
-          <h3>Hamburguesas en Carl's Jr.</h3>
-          <p>Algo rico, sin complicarnos: hamburguesas, papas, refresco y tiempo para platicar juntos.</p>
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYyn6ZZzAuUAZtttytV4Mo0uY5KgicJWGNlb6lpaiSdw&s=10" alt="Hamburguesas Carl's Jr." class="plan-img" />
-        </article>
+                <!-- Action Button for Random Reason -->
+                <button id="btn-random" class="flex items-center gap-2 bg-gradient-to-r from-rose-700 via-red-600 to-rose-800 hover:from-rose-600 hover:to-red-700 text-white font-medium px-5 py-2.5 rounded-full red-glow hover:red-glow-lg transition-all transform active:scale-95 border border-rose-400/30">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-rose-200"></i>
+                    <span>Razón Sorpresa</span>
+                </button>
+            </div>
+        </header>
 
-        <article class="plan-card" data-plan="Ir al cine 🎬🍿" onclick="togglePlan(this)">
-          <div class="plan-icon">🎬</div>
-          <h3>Ir al cine</h3>
-          <p>Elegimos película, compramos palomitas y nos olvidamos del mundo por un par de horas.</p>
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3WOROHf8We5V-aG7xYfQ0uFm9bF0GJdaenZfdgLor8A&s=10" alt="Ir al cine" class="plan-img" />
-        </article>
+        <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
+            
+            <!-- Progress & Stats Banner -->
+            <section class="glass-card rounded-2xl p-6 mb-8 border border-rose-900/50">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-rose-400">Progreso de lectura</span>
+                            <span id="progress-text" class="text-sm font-bold text-rose-400">0 / 200</span>
+                        </div>
+                        <div class="w-full bg-red-950/60 rounded-full h-3 overflow-hidden p-0.5 border border-rose-900/40">
+                            <div id="progress-bar" class="bg-gradient-to-r from-rose-700 via-red-500 to-rose-400 h-2 rounded-full transition-all duration-500 shadow-[0_0_10px_#f43f5e]" style="width: 0%"></div>
+                        </div>
+                    </div>
 
-        <article class="plan-card" data-plan="Paseo en motocicleta fuera de la ciudad 🏍️🌄" onclick="togglePlan(this)">
-          <div class="plan-icon">🏍️</div>
-          <h3>Paseo en motocicleta</h3>
-          <p>Salir un rato de la ciudad, tomar carretera con calma, disfrutar el paisaje y descubrir un lugar nuevo.</p>
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP53sy9pdS4O6WLmYrXfrzhzSj9OUGKRQ0k2CeCWSvGw&s=10" alt="Paseo en motocicleta" class="plan-img" />
-        </article>
+                    <div class="flex justify-center gap-8 text-center border-y md:border-y-0 md:border-x border-rose-900/40 py-4 md:py-0">
+                        <div>
+                            <p id="count-read" class="text-2xl font-bold text-rose-400">0</p>
+                            <p class="text-xs text-rose-300/60 font-medium">Leídas 📖</p>
+                        </div>
+                        <div>
+                            <p id="count-favs" class="text-2xl font-bold text-rose-400">0</p>
+                            <p class="text-xs text-rose-300/60 font-medium">Favoritas ❤️</p>
+                        </div>
+                    </div>
 
-        <article class="plan-card" data-plan="Ir al boliche Bowling 🎳" onclick="togglePlan(this)">
-          <div class="plan-icon">🎳</div>
-          <h3>Ir al boliche</h3>
-          <p>Una cita con competencia amistosa, risas y el derecho de presumir quién ganó.</p>
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxcAugAHWU7waAH2KIarb8stMq1kENCM_tf4WFKSEp1A&s=10" alt="Ir al boliche" class="plan-img" />
-        </article>
+                    <div class="flex justify-end gap-2">
+                        <button id="btn-mark-all" class="text-xs text-rose-300 hover:text-white bg-rose-950/60 hover:bg-rose-900/80 px-3 py-2 rounded-lg border border-rose-800/40 transition-colors font-medium">
+                            Marcar todas leídas
+                        </button>
+                        <button id="btn-reset" class="text-xs text-stone-400 hover:text-stone-200 bg-stone-900/60 hover:bg-stone-800/80 px-3 py-2 rounded-lg border border-stone-800 transition-colors font-medium">
+                            Reiniciar
+                        </button>
+                    </div>
+                </div>
+            </section>
 
-        <article class="plan-card" data-plan="Ir a Tlaquepaque de noche 🌙✨" onclick="togglePlan(this)">
-          <div class="plan-icon">🌙</div>
-          <h3>Ir a Tlaquepaque de noche</h3>
-          <p>Caminar por sus andadores iluminados, disfrutar de un postre, café y el ambiente romántico.</p>
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYEaEl8_g1J0sVYbmsEs7-J6AapjaHCr0XI6t4a_nNQQ&s=10" alt="Tlaquepaque de noche" class="plan-img" />
-        </article>
+            <section class="flex flex-col md:flex-row gap-4 mb-8 justify-between items-center">
+                <!-- Filter Buttons -->
+                <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                    <button data-filter="all" class="filter-btn active bg-gradient-to-r from-rose-700 to-red-600 text-white px-4 py-2 rounded-xl text-sm font-medium transition-all shadow-sm border border-rose-500/30">
+                        Todas (200)
+                    </button>
+                    <button data-filter="favs" class="filter-btn bg-stone-950/70 text-rose-300 hover:bg-rose-950/50 px-4 py-2 rounded-xl text-sm font-medium transition-all border border-rose-900/40">
+                        Favoritas ❤️
+                    </button>
+                    <button data-filter="unread" class="filter-btn bg-stone-950/70 text-rose-300 hover:bg-rose-950/50 px-4 py-2 rounded-xl text-sm font-medium transition-all border border-rose-900/40">
+                        Por leer 💌
+                    </button>
+                    <button data-filter="read" class="filter-btn bg-stone-950/70 text-rose-300 hover:bg-rose-950/50 px-4 py-2 rounded-xl text-sm font-medium transition-all border border-rose-900/40">
+                        Leídas ✨
+                    </button>
+                </div>
 
-        <article class="plan-card" data-plan="Ahorrarlo para la casa 🏠💰" onclick="togglePlan(this)">
-          <div class="plan-icon">🏠</div>
-          <h3>Ahorrarlo para la casa</h3>
-          <p>Un plan con la mirada en el futuro: nos quedamos tranquilos y sumamos a nuestros proyectos juntos.</p>
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSADQmYl4bkqiRVk9Phf7dSG6o7vddFH7AZ_1w9NqFhzw&s=10" alt="Ahorrar para la casa" class="plan-img" />
-        </article>
+                <!-- Search Input -->
+                <div class="relative w-full md:w-72">
+                    <input type="text" id="search-input" placeholder="Buscar una palabra o razón..." class="w-full pl-10 pr-4 py-2 rounded-xl glass-card text-sm text-rose-100 focus:outline-none focus:ring-2 focus:ring-rose-500 border border-rose-900/50 placeholder-rose-700/70">
+                    <i data-lucide="search" class="w-4 h-4 text-rose-500 absolute left-3 top-2.5"></i>
+                </div>
+            </section>
 
-        <article class="plan-card" data-plan="Ir a coshar a lo desgraciado 🔥❤️" onclick="togglePlan(this)">
-          <div class="plan-icon">🔥</div>
-          <h3>Ir a coshar a lo desgraciado</h3>
-          <p>Aislamiento total, cero interrupciones y toda la pasión del mundo sin prisas.</p>
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkCzbYU0G_eNd-NVzzDi9Xq1Jsu71Ka51R2SnVq6nhrw&s=10" alt="Plan íntimo" class="plan-img" />
-        </article>
+            <section id="cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards will be populated dynamically -->
+            </section>
 
-        <article class="plan-card" data-plan="Pasar toda la vida juntos 24/7 ♾️❤️" onclick="togglePlan(this)">
-          <div class="plan-icon">♾️</div>
-          <h3>Pasar toda la vida juntos 24/7</h3>
-          <p>Sin fecha de caducidad. Un plan donde nos elegimos todos los días, compartimos todo y construimos nuestro camino juntos.</p>
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGvPTtloCMO1mCRaagToU3jmxOMrTv1i4QlAEnbof4wQ&s=10" alt="Pasar toda la vida juntos" class="plan-img">
-        </article>
+            <!-- Empty State Message -->
+            <div id="empty-state" class="hidden text-center py-16">
+                <div class="w-16 h-16 bg-rose-950/60 border border-rose-800/40 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="heart-off" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-xl font-bold text-rose-300 mb-1">No encontramos razones aquí</h3>
+                <p class="text-rose-500/70 text-sm">Prueba ajustando los filtros o el término de búsqueda.</p>
+            </div>
+        </main>
 
-        <article class="plan-card" data-plan="Propuesta personalizada 💡✨" onclick="togglePlan(this)">
-          <div class="plan-icon">💡</div>
-          <h3>Tú propones el plan</h3>
-          <p>Sorpréndeme con lo que tengas en mente. Puedes escribir tus ideas en la nota de abajo.</p>
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2hlupw1r85OB1dSE50KdDHQrtK1Qy7d7058X0fVWR7g&s=10" alt="Propuesta personalizada" class="plan-img" />
-        </article>
-      </div>
-    </section>
+        <footer class="mt-auto py-6 text-center text-rose-400/50 text-xs border-t border-rose-950/60 bg-black/60 backdrop-blur-sm">
+            <p>Hecho con ❤️ en la penumbra más dulce para ti. Eres mi razón eterna.</p>
+        </footer>
+    </div>
 
-    <section id="agenda">
-      <h2 class="section-title">Ahora pongámosle fecha</h2>
-      <p class="section-subtitle">
-        El horario está disponible desde las 12:00 PM hasta las 12:00 AM.
-      </p>
+    <div id="reason-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+        <div class="glass-card bg-stone-950/95 max-w-lg w-full rounded-3xl p-8 shadow-2xl relative border border-rose-600/40 red-glow-lg animate-modal">
+            <button id="close-modal" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-rose-950/60 hover:bg-rose-900 text-rose-300 flex items-center justify-center transition-colors border border-rose-800/40">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
 
-      <div class="panel">
-        <div class="selected-plan">
-          <span style="font-size:26px">💘</span>
-          <div>
-            <span class="mini">Planes seleccionados</span>
-            <strong id="selectedPlanText">Todavía no eliges ninguno</strong>
-          </div>
+            <div class="text-center">
+                <div id="modal-tag" class="inline-block px-3 py-1 bg-rose-950 text-rose-300 border border-rose-800/60 rounded-full text-xs font-semibold mb-4 shadow-inner">
+                    Razón #1
+                </div>
+                
+                <h2 id="modal-text" class="font-cursive text-3xl md:text-4xl text-rose-200 my-6 leading-relaxed drop-shadow-[0_2px_10px_rgba(225,29,72,0.3)]">
+                    "Tu sonrisa ilumina incluso mis días más oscuros."
+                </h2>
+
+                <div class="flex items-center justify-center gap-4 mt-8 pt-4 border-t border-rose-900/40">
+                    <button id="modal-btn-fav" class="flex items-center gap-2 px-4 py-2 rounded-xl border border-rose-800/60 text-rose-300 hover:bg-rose-950/60 transition-colors text-sm font-medium">
+                        <i data-lucide="heart" class="w-4 h-4"></i>
+                        <span>Favorito</span>
+                    </button>
+                    <button id="modal-btn-next" class="flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-to-r from-rose-700 to-red-600 hover:from-rose-600 hover:to-red-500 text-white transition-colors text-sm font-medium red-glow">
+                        <span>Otra Razón</span>
+                        <i data-lucide="sparkles" class="w-4 h-4 text-rose-200"></i>
+                    </button>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <form id="dateForm">
-          <div class="grid-2">
-            <div class="field">
-              <label for="dateInput">📅 ¿Qué día?</label>
-              <input id="dateInput" type="date" required />
-            </div>
+    <script>
+        // Data containing all 200 romantic reasons
+        const reasonsList = [
+            "Por la forma única en que me miras cuando crees que no me doy cuenta.",
+            "Porque tu sonrisa tiene el poder de calmar cualquier tormenta en mi día.",
+            "Por la calidez inigualable de tus abrazos.",
+            "Porque haces que las pequeñas cosas de la vida se sientan mágicas.",
+            "Por la suavidad de tus manos entrelazadas con las mías.",
+            "Porque contigo aprendí lo que significa amar sin reservas.",
+            "Por tu risa contagiosa que ilumina cualquier habitación.",
+            "Porque me apoyas e impulsas a ser una mejor versión de mí mismo/a.",
+            "Por cómo suena tu voz al susurrarme un 'te amo'.",
+            "Porque tus ojos reflejan la bondad más pura de tu alma.",
+            "Por la paciencia que siempre me tienes, incluso en mis peores momentos.",
+            "Porque haces de nuestro hogar cualquier lugar donde estemos juntos.",
+            "Por los detalles pequeños pero enormes que tienes conmigo cada día.",
+            "Porque me escuchas como si mis palabras fueran lo más importante del mundo.",
+            "Por la forma en que tus labios encajan perfectamente con los míos.",
+            "Porque respetas y valoras mis sueños tanto como los tuyos.",
+            "Por la seguridad que siento cuando estoy a tu lado.",
+            "Porque compartimos miradas complicitarias que solo nosotros entendemos.",
+            "Por tu infinita ternura al cuidarme cuando estoy enfermo/a o cansado/a.",
+            "Porque juntos hacemos el mejor equipo que jamás podría haber deseado.",
+            "Por la pasión con la que vives la vida y persigues tus metas.",
+            "Porque tus besos en la frente me hacen sentir profundamente protegido/a.",
+            "Por la paz inmediata que me transmite tu presencia.",
+            "Porque sabes exactamente cómo hacerme reír cuando más lo necesito.",
+            "Por tu generosidad sin límites hacia los demás.",
+            "Porque jamás me cansaría de contemplarte mientras duermes.",
+            "Por la libertad que me das para ser auténticamente yo.",
+            "Porque eres mi lugar seguro en este mundo tan caótico.",
+            "Por cómo te preocupas de que siempre esté bien.",
+            "Porque nuestros recuerdos juntos son mi tesoro más preciado.",
+            "Por la energía tan bonita que irradias a donde quiera que vas.",
+            "Porque tus consejos siempre vienen acompañados de sabiduría y amor.",
+            "Por cómo bailas conmigo, aunque sea en medio de la sala sin música.",
+            "Porque respetas mis silencios y celebras mis palabras.",
+            "Por la forma en que me buscas en la cama a mitad de la noche.",
+            "Porque haces que el futuro no dé miedo si es a tu lado.",
+            "Por tu capacidad para perdonar y sanar con madurez.",
+            "Porque siempre encuentras un motivo para dar las gracias.",
+            "Por el brillo especial en tus ojos cuando hablas de algo que amas.",
+            "Porque con solo una palabra tuya, mi día mejora por completo.",
+            "Por la forma en que sostienes mi cara al besarme.",
+            "Porque no necesitas fechas especiales para tener un detalle conmigo.",
+            "Por tu sinceridad e integridad intachables.",
+            "Porque me demostraste que los amores verdaderos sí existen.",
+            "Por cómo juegas con mi cabello distraídamente.",
+            "Porque me haces sentir la persona más afortunada del planeta.",
+            "Por la empatía y compasión que muestras hacia todos los seres vivos.",
+            "Porque contigo hasta los días nublados y lluviosos son hermosos.",
+            "Por la fragancia de tu piel que se queda impregnada en mis pensamientos.",
+            "Porque nunca me juzgas por mis miedos o debilidades.",
+            "Por cómo defiendes lo que crees con firmeza pero con amor.",
+            "Porque tus caricias tienen el poder de curar mi cansancio.",
+            "Por la forma tan dulce en que dices mi nombre.",
+            "Porque compartes tus alegrías y penas conmigo con total transparencia.",
+            "Por la creatividad que le pones a cada momento juntos.",
+            "Porque en tus brazos descubrí el significado de la serenidad.",
+            "Por la admiración profunda que siento hacia la persona que eres.",
+            "Porque sabes leer mis emociones solo con mirar mi rostro.",
+            "Por cómo me besas cuando nos volvemos a ver después de un tiempo.",
+            "Porque haces que lo ordinario se vuelva extraordinario.",
+            "Por tu elegancia y la gracia con la que caminas por la vida.",
+            "Porque tus abrazos por la espalda son de mis cosas favoritas.",
+            "Por la confianza inquebrantable que has construido entre nosotros.",
+            "Porque compartes tus historias de la infancia con tanto entusiasmo.",
+            "Por la complicidad que tenemos en medio de la gente.",
+            "Porque no le temes a demostrar tus sentimientos abiertamente.",
+            "Por tu sentido del humor único que siempre me saca una sonrisa.",
+            "Porque a tu lado he aprendido a amar las pequeñas rutinas.",
+            "Por la manera en que tus dedos acarician los míos mientras caminamos.",
+            "Porque siempre estás dispuesto/a a aprender y crecer a mi lado.",
+            "Por el calor que me das cuando tengo frío.",
+            "Porque eres la primera y última persona en la que pienso cada día.",
+            "Por la inteligencia con la que abordas los desafíos.",
+            "Porque haces que el silencio a tu lado sea cómodo y reconfortante.",
+            "Por la ternura con la que tratas a los animales y niños.",
+            "Porque tus palabras de aliento son el motor de mi confianza.",
+            "Por la pasión con la que me miras cuando crees que no me doy cuenta.",
+            "Porque creaste un espacio donde puedo ser perfectamente vulnerable.",
+            "Por las conversaciones profundas de medianoche que tenemos.",
+            "Porque me das la mano al cruzar la calle o al caminar juntos.",
+            "Por la forma en que preparas las cosas para hacerme feliz.",
+            "Porque con cada día que pasa, mi amor por ti solo sigue creciendo.",
+            "Por tus risitas tontas que me derriten el corazón.",
+            "Porque me respetas en todas tus acciones y palabras.",
+            "Por la forma en que recuerdas hasta los detalles más pequeños de lo que digo.",
+            "Porque juntos transformamos cualquier lugar sencillo en un paraíso.",
+            "Por el aroma que dejas en el aire cuando entras a una habitación.",
+            "Porque no imagino una vida donde no camine de tu mano.",
+            "Por tu humildad y tu noble corazón.",
+            "Porque me haces sentir amado/a de una manera que nunca creí posible.",
+            "Por la forma en que me miras a los ojos cuando me hablas profundamente.",
+            "Porque me enseñas algo nuevo todos los días.",
+            "Por tu dulzura al darme los buenos días y las buenas noches.",
+            "Porque siempre buscas la justicia y la armonía a tu alrededor.",
+            "Por los besos robados en momentos inesperados.",
+            "Porque no necesitas pretender ser nadie más; eres perfecto/a siendo tú.",
+            "Por la forma en que tu risa hace eco en mi pecho.",
+            "Porque contigo el tiempo pasa volando pero los recuerdos duran para siempre.",
+            "Por la lealtad absoluta que me demuestras.",
+            "Porque haces que las despedidas sean cortas y los reencuentros eternos.",
+            "Por cómo acomodas mi ropa o mi cabello con tanta sutileza.",
+            "Porque eres la melodía perfecta de mi canción favorita.",
+            "Por la paz que siento al escuchar los latidos de tu corazón.",
+            "Porque tus imperfecciones te hacen aún más increíble ante mis ojos.",
+            "Por tu paciencia cuando me cuesta decidir algo.",
+            "Porque me haces querer ser mejor persona sin pedirme que cambie.",
+            "Por la forma tan bonita en que sonríes mientras estás distraído/a.",
+            "Porque compartes tus platillos favoritos conmigo.",
+            "Por la manera en que te entregas por completo a lo que amas.",
+            "Porque siempre encuentras la solución más inteligente a los problemas.",
+            "Por tu sentido de la aventura y tu curiosidad por el mundo.",
+            "Porque abrazarte fuerte es el mejor remedio para cualquier dolor.",
+            "Por la dulzura de tu aliento rozando mi cuello.",
+            "Porque me haces sentir en casa sin importar en qué parte del mapa estemos.",
+            "Por cómo te ríes de mis chistes malos.",
+            "Porque mantienes vivas las ganas de enamorarme de ti todos los días.",
+            "Por tu honestidad sin filtros, siempre con tacto y amor.",
+            "Porque eres mi refugio en los días grises.",
+            "Por la solidez de tu apoyo en mis metas profesionales y personales.",
+            "Porque tus Besos tienen el sabor a la felicidad pura.",
+            "Por la magia de tus mensajes espontáneos durante el día.",
+            "Porque con una sola mirada sabes exactamente lo que estoy pensando.",
+            "Por la delicadeza con la que tratas mis sentimientos.",
+            "Porque no le temes a mostrarte tal como eres conmigo.",
+            "Por la chispa de travesura en tus ojos.",
+            "Porque eres la luz que guía mis momentos de oscuridad.",
+            "Por cómo celebras mis triunfos como si fueran tuyos.",
+            "Porque el destino fue generoso al cruzar nuestros caminos.",
+            "Por el brillo que le das a mis fotos y a mis recuerdos.",
+            "Porque compartimos sueños y planes para el futuro.",
+            "Por cómo respondes a mis caricias con una sonrisa instantánea.",
+            "Porque haces que perdonar sea fácil y amar sea natural.",
+            "Por tu capacidad para sorprenderme positivamente una y otra vez.",
+            "Porque tus abrazos duran el tiempo exacto para sanar el alma.",
+            "Por cómo cuidas de tu familia y de tus seres queridos.",
+            "Porque eres la respuesta a todo lo que alguna vez le pedí a la vida.",
+            "Por el tono cariñoso que usas cuando me hablas a solas.",
+            "Porque a tu lado los problemas se hacen pequeños y las alegrías gigantes.",
+            "Por cómo tus mejillas se sonrojan cuando te hago un cumplido.",
+            "Porque eres mi poema preferido y mi historia favorita.",
+            "Por tu entereza y tu valentía frente a las dificultades.",
+            "Porque me contagias tu entusiasmo por las cosas sencillas.",
+            "Por la calma con la que enfrentas las discusiones buscando siempre entender.",
+            "Porque tus suspiros junto a mi oído me erizan la piel.",
+            "Por tu forma única de ver y apreciar la belleza del mundo.",
+            "Porque no hay nadie con quien prefiera pasar un domingo entero.",
+            "Por cómo me cuidas sin sofocarme.",
+            "Porque contigo el amor no duele, el amor sana y libera.",
+            "Por los secretos que compartimos y que nadie más sabrá jamás.",
+            "Por tu forma de caminar con elegancia y seguridad.",
+            "Porque eres mi persona favorita para hacer nada y sentirlo todo.",
+            "Por la frescura y la vitalidad que le das a mi vida.",
+            "Porque siempre tienes una sonrisa reservada especialmente para mí.",
+            "Por la forma en que tus ojos se entrecierran cuando te ríes con ganas.",
+            "Porque me motivas a ver el lado positivo de cualquier situación.",
+            "Por la complicidad que tenemos en las miradas a través de la habitación.",
+            "Porque me haces sentir que no estoy solo/a en este universo.",
+            "Por cómo te esfuerzas por comprender mis puntos de vista.",
+            "Porque tus expresiones de cariño son las más puras y sinceras.",
+            "Por la forma en que acomodas tu cabeza sobre mi pecho.",
+            "Porque tu amor es una constante en la que siempre puedo confiar.",
+            "Por la manera en que haces que me sienta orgulloso/a de tenerte a mi lado.",
+            "Porque cada caricia tuya borra las cicatrices del pasado.",
+            "Por las canciones que me recuerdan a ti y las que me has dedicado.",
+            "Porque eres la pieza que faltaba para completar mi rompecabezas.",
+            "Por tu respeto incondicional hacia mi espacio y mis tiempos.",
+            "Porque contigo he vivido momentos inolvidables.",
+            "Por cómo te preocupas por mi bienestar emocional y físico.",
+            "Porque tienes el don de hacerme sentir la persona más especial.",
+            "Por la ternura con la que besas mis párpados.",
+            "Porque no necesitas fingir para impresionar; tu esencia es única.",
+            "Por el calor de tus labios en las mañanas frías.",
+            "Porque tu amor me da fuerza para enfrentar cualquier reto.",
+            "Por la naturalidad con la que fluimos juntos.",
+            "Porque con solo rozar tu piel siento mariposas como el primer día.",
+            "Por tu generosidad al compartir tu vida entera conmigo.",
+            "Porque tus cartas y notas de amor son tesoros que guardo en el corazón.",
+            "Por la manera en que valoras nuestro tiempo a solas.",
+            "Porque eres la persona más hermosa por dentro y por fuera.",
+            "Por cómo iluminas los días oscuros de las personas que te rodean.",
+            "Porque me demostraste que la magia del amor real no caduca.",
+            "Por tu risa contagiosa que se convierte en mi melodía preferida.",
+            "Porque eres mi mejor amigo/a, mi amante y mi compañero/a de vida.",
+            "Por cómo sabes consolarme sin decir una sola palabra.",
+            "Porque me haces sonreír mirando el teléfono cuando me escribes.",
+            "Por la serenidad que me da saber que estamos caminando en la misma dirección.",
+            "Porque eres la historia más bonita que el destino escribió en mi vida.",
+            "Por tu forma de amar tan entregada, sincera y auténtica.",
+            "Por la paciencia infinita con la que escuchas mis historias repetidas.",
+            "Porque a tu lado me siento en absoluta paz con el mundo.",
+            "Por los besos que me das justo antes de dormir.",
+            "Porque sencillamente existir a tu lado es el regalo más hermoso de la vida.",
+            "¡Por ser tú, inigualable, milagroso/a y el gran amor de mi vida!"
+        ];
 
-            <div class="field">
-              <label for="timeInput">🕒 ¿A qué hora?</label>
-              <select id="timeInput" required>
-                <option value="">Selecciona una hora</option>
-              </select>
-            </div>
-          </div>
+        let state = {
+            read: new Set(JSON.parse(localStorage.getItem('reasons_read') || '[]')),
+            favs: new Set(JSON.parse(localStorage.getItem('reasons_favs') || '[]')),
+            filter: 'all',
+            search: ''
+        };
 
-          <div class="field">
-            <label for="notesInput">💌 Propuestas propias o notas adicionales (opcional)</label>
-            <textarea
-              id="notesInput"
-              maxlength="300"
-              placeholder="Ej. Escribe aquí tu propia idea de cita, qué película ver, si quieres malteada, etc."
-            ></textarea>
-          </div>
+        function saveState() {
+            localStorage.setItem('reasons_read', JSON.stringify([...state.read]));
+            localStorage.setItem('reasons_favs', JSON.stringify([...state.favs]));
+        }
 
-          <button class="submit" type="submit">Confirmar nuestra cita ❤️</button>
+        function renderCards() {
+            const container = document.getElementById('cards-container');
+            const emptyState = document.getElementById('empty-state');
+            container.innerHTML = '';
 
-          <p class="hint">
-            Al confirmar, se abrirá WhatsApp con el mensaje listo para enviarlo.
-          </p>
-        </form>
-      </div>
-    </section>
+            let filteredIndices = reasonsList.map((reason, index) => ({ reason, id: index + 1 }))
+                .filter(item => {
+                    if (state.filter === 'read' && !state.read.has(item.id)) return false;
+                    if (state.filter === 'unread' && state.read.has(item.id)) return false;
+                    if (state.filter === 'favs' && !state.favs.has(item.id)) return false;
 
-    <section id="confirmationSection" class="hidden">
-      <div class="ticket">
-        <div class="ticket-head">
-          <b>💛 CITA CONFIRMADA • PASE ESPECIAL 💛</b>
-        </div>
+                    if (state.search && !item.reason.toLowerCase().includes(state.search.toLowerCase())) {
+                        return false;
+                    }
+                    return true;
+                });
 
-        <div class="ticket-body">
-          <div class="ticket-title">Ya tenemos plan ✨</div>
-
-          <div class="ticket-grid">
-            <div class="ticket-row">
-              <div class="i">💘</div>
-              <div>
-                <small>Plan(es)</small>
-                <strong id="ticketPlan"></strong>
-              </div>
-            </div>
-
-            <div class="ticket-row">
-              <div class="i">📅</div>
-              <div>
-                <small>Fecha</small>
-                <strong id="ticketDate"></strong>
-              </div>
-            </div>
-
-            <div class="ticket-row">
-              <div class="i">🕒</div>
-              <div>
-                <small>Hora</small>
-                <strong id="ticketTime"></strong>
-              </div>
-            </div>
-
-            <div class="ticket-row hidden" id="ticketNotesRow">
-              <div class="i">💌</div>
-              <div>
-                <small>Detalle / Nota</small>
-                <strong id="ticketNotes"></strong>
-              </div>
-            </div>
-          </div>
-
-          <a id="whatsappLink" class="whatsapp-button" href="#" target="_blank" rel="noopener noreferrer">
-            💬 Enviar nuevamente por WhatsApp
-          </a>
-
-          <p class="hint">
-            WhatsApp no permite que una página envíe el mensaje automáticamente:
-            abre la conversación con todo escrito y solo hay que tocar “Enviar”.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section id="surpriseSection" class="hidden">
-      <div class="surprise">
-        <div class="eyebrow">🌼 una sorpresa que llegó un poquito tarde</div>
-
-        <h2>Flores amarillas para ti 💛</h2>
-
-        <p class="intro">
-          Tal vez no llegaron exactamente el 21 de septiembre, pero no quería dejar pasar la oportunidad
-          de darte unas flores amarillas hechas especialmente para ti.
-        </p>
-
-        <div class="bouquet" aria-label="Ramo animado de flores amarillas">
-          <div class="stem s1"></div>
-          <div class="stem s2"></div>
-          <div class="stem s3"></div>
-          <div class="stem s4"></div>
-          <div class="stem s5"></div>
-
-          <div class="leaf"></div>
-          <div class="leaf r"></div>
-
-          <div class="flower f1">
-            <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
-            <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
-            <span class="center"></span>
-          </div>
-
-          <div class="flower f2">
-            <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
-            <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
-            <span class="center"></span>
-          </div>
-
-          <div class="flower f3">
-            <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
-            <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
-            <span class="center"></span>
-          </div>
-
-          <div class="flower f4">
-            <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
-            <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
-            <span class="center"></span>
-          </div>
-
-          <div class="flower f5">
-            <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
-            <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
-            <span class="center"></span>
-          </div>
-
-          <div class="wrap-paper"></div>
-          <div class="ribbon"></div>
-
-          <div class="spark s1">✦</div>
-          <div class="spark s2">✦</div>
-          <div class="spark s3">✦</div>
-          <div class="spark s4">✦</div>
-        </div>
-
-        <div class="apology">
-          <b>Perdóname por no habértelas dado a tiempo.</b><br />
-          Sé que la fecha especial de las flores amarillas era el 21 de septiembre y me hubiera gustado
-          tener este detalle contigo ese día. No quería quedarme con las ganas de decírtelo, así que estas
-          flores son mi forma de compensarlo: llegaron tarde, pero vienen con muchísimo cariño. 💛
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      Hecho con código, cariño y una intención muy bonita. ❤️
-    </footer>
-  </main>
-
-  <div id="toast" class="toast">Plan seleccionado</div>
-
-  <script>
-    const WHATSAPP_NUMBER = "523335955413";
-
-    let selectedPlans = [];
-
-    const selectedPlanText = document.getElementById("selectedPlanText");
-    const dateInput = document.getElementById("dateInput");
-    const timeInput = document.getElementById("timeInput");
-    const notesInput = document.getElementById("notesInput");
-    const toast = document.getElementById("toast");
-
-    function buildTimeOptions() {
-      const stepMinutes = 30;
-
-      for (let total = 12 * 60; total < 24 * 60; total += stepMinutes) {
-        const hour24 = Math.floor(total / 60);
-        const minute = total % 60;
-        const hour12 = hour24 > 12 ? hour24 - 12 : hour24;
-        const label = `${hour12}:${String(minute).padStart(2, "0")} PM`;
-        const value = `${String(hour24).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
-
-        const option = document.createElement("option");
-        option.value = value;
-        option.textContent = label;
-        timeInput.appendChild(option);
-      }
-
-      const midnight = document.createElement("option");
-      midnight.value = "00:00";
-      midnight.textContent = "12:00 AM";
-      timeInput.appendChild(midnight);
-    }
-
-    function togglePlan(card) {
-      const plan = card.dataset.plan;
-
-      if (card.classList.contains("selected")) {
-        card.classList.remove("selected");
-        selectedPlans = selectedPlans.filter(p => p !== plan);
-        showToast("Plan removido");
-      } else {
-        card.classList.add("selected");
-        selectedPlans.push(plan);
-        showToast("💘 Plan agregado");
-      }
-
-      updateSelectedPlansUI();
-    }
-
-    function updateSelectedPlansUI() {
-      if (selectedPlans.length === 0) {
-        selectedPlanText.textContent = "Todavía no eliges ninguno";
-      } else {
-        selectedPlanText.textContent = selectedPlans.map(p => `• ${p}`).join("\n");
-      }
-    }
-
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add("show");
-
-      clearTimeout(window.__toastTimer);
-      window.__toastTimer = setTimeout(() => {
-        toast.classList.remove("show");
-      }, 1800);
-    }
-
-    function formatDate(value) {
-      const date = new Date(value + "T12:00:00");
-      return new Intl.DateTimeFormat("es-MX", {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-      }).format(date);
-    }
-
-    function formatTime(value) {
-      if (value === "00:00") return "12:00 AM";
-
-      const [h, m] = value.split(":").map(Number);
-      const hour = h > 12 ? h - 12 : h;
-      return `${hour}:${String(m).padStart(2, "0")} PM`;
-    }
-
-    function buildWhatsAppUrl(plansFormatted, dateText, timeText, notes) {
-      const extra = notes.trim()
-        ? `\n\n💌 Algo que quiero agregar / propuesta:\n${notes.trim()}`
-        : "";
-
-      const message =
-`❤️ Ya elegí nuestra cita ❤️
-
-💘 Plan(es) elegido(s):
-${plansFormatted}
-
-📅 Fecha:
-${dateText}
-
-🕒 Hora:
-${timeText}${extra}
-
-Ya quedó agendado ✨`;
-
-      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    }
-
-    function launchYellowCelebration() {
-      const colors = ["#ffd84d", "#ffe873", "#f5b82e", "#fff3a3"];
-
-      for (let i = 0; i < 46; i++) {
-        const piece = document.createElement("span");
-        piece.style.position = "fixed";
-        piece.style.zIndex = "9999";
-        piece.style.pointerEvents = "none";
-        piece.style.left = Math.random() * 100 + "vw";
-        piece.style.top = "-20px";
-        piece.style.width = (6 + Math.random() * 7) + "px";
-        piece.style.height = (10 + Math.random() * 12) + "px";
-        piece.style.borderRadius = Math.random() > .5 ? "50%" : "3px";
-        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-        piece.style.opacity = ".95";
-        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
-
-        const duration = 2400 + Math.random() * 1800;
-        piece.animate(
-          [
-            { transform: `translate3d(0,0,0) rotate(0deg)`, opacity: 1 },
-            {
-              transform: `translate3d(${(Math.random() - .5) * 220}px, 105vh, 0) rotate(${540 + Math.random() * 600}deg)`,
-              opacity: .15
+            if (filteredIndices.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
             }
-          ],
-          { duration, easing: "cubic-bezier(.2,.7,.2,1)", fill: "forwards" }
-        );
 
-        document.body.appendChild(piece);
-        setTimeout(() => piece.remove(), duration + 150);
-      }
-    }
+            filteredIndices.forEach(item => {
+                const isRead = state.read.has(item.id);
+                const isFav = state.favs.has(item.id);
 
-    document.getElementById("dateForm").addEventListener("submit", function (event) {
-      event.preventDefault();
+                const card = document.createElement('div');
+                card.className = `glass-card rounded-2xl p-6 card-hover flex flex-col justify-between relative overflow-hidden ${isRead ? 'border-rose-950/40 opacity-80' : 'border-rose-900/40'}`;
+                
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-3 py-1 rounded-full ${isRead ? 'bg-rose-950/80 text-rose-400 border border-rose-900/40' : 'bg-gradient-to-r from-rose-700 to-red-600 text-white shadow-sm'}">
+                            Razón #${item.id}
+                        </span>
+                        <div class="flex items-center gap-1">
+                            <button onclick="toggleFav(${item.id}, event)" class="p-2 rounded-full hover:bg-rose-950/60 transition-colors ${isFav ? 'text-rose-500' : 'text-stone-600'}" title="Favorito">
+                                <i data-lucide="heart" class="w-5 h-5 ${isFav ? 'fill-current' : ''}"></i>
+                            </button>
+                            <button onclick="toggleRead(${item.id}, event)" class="p-2 rounded-full hover:bg-rose-950/60 transition-colors ${isRead ? 'text-rose-500' : 'text-stone-600'}" title="Marcar leída">
+                                <i data-lucide="check-circle" class="w-5 h-5 ${isRead ? 'fill-current' : ''}"></i>
+                            </button>
+                        </div>
+                    </div>
 
-      const date = dateInput.value;
-      const time = timeInput.value;
-      const notes = notesInput.value.trim();
+                    <p class="text-rose-100 font-medium text-base mb-6 leading-relaxed">
+                        "${item.reason}"
+                    </p>
 
-      if (selectedPlans.length === 0) {
-        showToast("Primero elige al menos una de las opciones ❤️");
-        document.getElementById("planes").scrollIntoView({ behavior: "smooth" });
-        return;
-      }
+                    <div class="flex items-center justify-between pt-3 border-t border-rose-950/80 text-xs text-rose-500/70">
+                        <span>${isRead ? '✨ Leída' : '💌 Pendiente'}</span>
+                        <button onclick="openModal(${item.id})" class="text-rose-400 font-semibold hover:text-rose-300 hover:underline flex items-center gap-1">
+                            <span>Ver detalle</span>
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                `;
 
-      if (!date || !time) {
-        showToast("Falta elegir fecha u hora");
-        return;
-      }
+                container.appendChild(card);
+            });
 
-      const dateText = formatDate(date);
-      const timeText = formatTime(time);
-      const plansFormatted = selectedPlans.map(p => `• ${p}`).join("\n");
+            lucide.createIcons();
+            updateStats();
+        }
 
-      document.getElementById("ticketPlan").textContent = plansFormatted;
-      document.getElementById("ticketDate").textContent =
-        dateText.charAt(0).toUpperCase() + dateText.slice(1);
-      document.getElementById("ticketTime").textContent = timeText;
+        function updateStats() {
+            const total = reasonsList.length;
+            const readCount = state.read.size;
+            const favCount = state.favs.size;
+            const percent = Math.round((readCount / total) * 100);
 
-      const notesRow = document.getElementById("ticketNotesRow");
+            document.getElementById('progress-text').innerText = `${readCount} / ${total} (${percent}%)`;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+            document.getElementById('count-read').innerText = readCount;
+            document.getElementById('count-favs').innerText = favCount;
+        }
 
-      if (notes) {
-        notesRow.classList.remove("hidden");
-        document.getElementById("ticketNotes").textContent = notes;
-      } else {
-        notesRow.classList.add("hidden");
-      }
+        window.toggleFav = function(id, e) {
+            if (e) e.stopPropagation();
+            if (state.favs.has(id)) {
+                state.favs.delete(id);
+            } else {
+                state.favs.add(id);
+            }
+            saveState();
+            renderCards();
+        };
 
-      const whatsappUrl = buildWhatsAppUrl(plansFormatted, dateText, timeText, notes);
-      document.getElementById("whatsappLink").href = whatsappUrl;
+        window.toggleRead = function(id, e) {
+            if (e) e.stopPropagation();
+            if (state.read.has(id)) {
+                state.read.delete(id);
+            } else {
+                state.read.add(id);
+            }
+            saveState();
+            renderCards();
+        };
 
-      const confirmation = document.getElementById("confirmationSection");
-      const surprise = document.getElementById("surpriseSection");
+        // Modal Logic
+        let currentModalId = 1;
 
-      confirmation.classList.remove("hidden");
-      surprise.classList.remove("hidden");
+        window.openModal = function(id) {
+            currentModalId = id;
+            const reasonText = reasonsList[id - 1];
+            
+            if (!state.read.has(id)) {
+                state.read.add(id);
+                saveState();
+                updateStats();
+            }
 
-      launchYellowCelebration();
+            document.getElementById('modal-tag').innerText = `Razón #${id}`;
+            document.getElementById('modal-text').innerText = `"${reasonText}"`;
+            
+            updateModalFavBtn();
 
-      confirmation.scrollIntoView({ behavior: "smooth", block: "start" });
+            const modal = document.getElementById('reason-modal');
+            modal.classList.remove('hidden');
+            renderCards();
+        };
 
-      setTimeout(() => {
-        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-      }, 450);
+        function updateModalFavBtn() {
+            const btn = document.getElementById('modal-btn-fav');
+            const isFav = state.favs.has(currentModalId);
+            if (isFav) {
+                btn.className = "flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-rose-700 to-red-600 text-white transition-colors text-sm font-medium red-glow";
+                btn.innerHTML = `<i data-lucide="heart" class="w-4 h-4 fill-current"></i><span>Favorito</span>`;
+            } else {
+                btn.className = "flex items-center gap-2 px-4 py-2 rounded-xl border border-rose-800/60 text-rose-300 hover:bg-rose-950/60 transition-colors text-sm font-medium";
+                btn.innerHTML = `<i data-lucide="heart" class="w-4 h-4"></i><span>Favorito</span>`;
+            }
+            lucide.createIcons();
+        }
 
-      setTimeout(() => {
-        surprise.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 1800);
-    });
+        document.getElementById('close-modal').addEventListener('click', () => {
+            document.getElementById('reason-modal').classList.add('hidden');
+        });
 
-    function createCodeRain() {
-      const container = document.getElementById("codeRain");
-      const fragments = [
-        "const love = true;",
-        "while(us){ smile(); }",
-        "if(you) heart++;",
-        "<date>❤️</date>",
-        "01001000 01101001",
-        "function cita(){ return 'tú'; }",
-        "{ plan: 'nosotros' }"
-      ];
+        document.getElementById('modal-btn-fav').addEventListener('click', () => {
+            toggleFav(currentModalId);
+            updateModalFavBtn();
+        });
 
-      for (let i = 0; i < 20; i++) {
-        const line = document.createElement("div");
-        line.className = "code-line";
-        line.textContent = fragments[Math.floor(Math.random() * fragments.length)];
-        line.style.left = Math.random() * 100 + "%";
-        line.style.animationDuration = (9 + Math.random() * 12) + "s";
-        line.style.animationDelay = (-Math.random() * 14) + "s";
-        line.style.fontSize = (9 + Math.random() * 5) + "px";
-        container.appendChild(line);
-      }
-    }
+        document.getElementById('modal-btn-next').addEventListener('click', () => {
+            let nextId;
+            do {
+                nextId = Math.floor(Math.random() * reasonsList.length) + 1;
+            } while (nextId === currentModalId && reasonsList.length > 1);
+            openModal(nextId);
+        });
 
-    const today = new Date();
-    const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000)
-      .toISOString()
-      .split("T")[0];
-    dateInput.min = localToday;
+        // Random Reason Button Top Bar
+        document.getElementById('btn-random').addEventListener('click', () => {
+            const randomId = Math.floor(Math.random() * reasonsList.length) + 1;
+            openModal(randomId);
+        });
 
-    buildTimeOptions();
-    createCodeRain();
-  </script>
+        // Filter Buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('bg-gradient-to-r', 'from-rose-700', 'to-red-600', 'text-white', 'active', 'border-rose-500/30');
+                    b.classList.add('bg-stone-950/70', 'text-rose-300', 'border-rose-900/40');
+                });
+                btn.classList.remove('bg-stone-950/70', 'text-rose-300', 'border-rose-900/40');
+                btn.classList.add('bg-gradient-to-r', 'from-rose-700', 'to-red-600', 'text-white', 'active', 'border-rose-500/30');
+
+                state.filter = btn.getAttribute('data-filter');
+                renderCards();
+            });
+        });
+
+        // Search Input
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            state.search = e.target.value;
+            renderCards();
+        });
+
+        // Bulk Actions
+        document.getElementById('btn-mark-all').addEventListener('click', () => {
+            for (let i = 1; i <= reasonsList.length; i++) {
+                state.read.add(i);
+            }
+            saveState();
+            renderCards();
+        });
+
+        document.getElementById('btn-reset').addEventListener('click', () => {
+            if (confirm('¿Quieres reiniciar tu progreso de lectura y favoritos?')) {
+                state.read.clear();
+                state.favs.clear();
+                saveState();
+                renderCards();
+            }
+        });
+
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 20;
+                this.size = Math.random() * 10 + 6;
+                this.speedY = Math.random() * 1.2 + 0.3;
+                this.speedX = (Math.random() - 0.5) * 0.6;
+                this.opacity = Math.random() * 0.4 + 0.1;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+                this.color = Math.random() > 0.4 ? '#e11d48' : '#9f1239';
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+
+                if (this.y < -30) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.shadowColor = '#e11d48';
+                ctx.shadowBlur = 8;
+                
+                // Draw heart shape
+                ctx.beginPath();
+                const topCurveHeight = this.size * 0.3;
+                ctx.moveTo(0, topCurveHeight);
+                ctx.bezierCurveTo(0, 0, -this.size / 2, 0, -this.size / 2, topCurveHeight);
+                ctx.bezierCurveTo(-this.size / 2, (this.size + topCurveHeight) / 2, 0, this.size, 0, this.size);
+                ctx.bezierCurveTo(0, this.size, this.size / 2, (this.size + topCurveHeight) / 2, this.size / 2, topCurveHeight);
+                ctx.bezierCurveTo(this.size / 2, 0, 0, 0, 0, topCurveHeight);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        const particles = Array.from({ length: 35 }, () => new Particle());
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.onload = function() {
+            lucide.createIcons();
+            renderCards();
+            animateParticles();
+        };
+    </script>
 </body>
 </html>
