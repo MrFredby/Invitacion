@@ -19,13 +19,13 @@
             background: radial-gradient(circle at top center, #2b060d 0%, #0f0205 45%, #050102 100%);
             min-height: 100vh;
             color: #fecdd3;
+            padding-bottom: 120px;
         }
 
         .font-cursive {
             font-family: 'Dancing Script', cursive;
         }
 
-        /* Heart particle canvas styling */
         #particles-canvas {
             position: fixed;
             top: 0;
@@ -36,9 +36,8 @@
             z-index: 0;
         }
 
-        /* Dark Glassmorphism effects */
         .glass-card {
-            background: rgba(18, 5, 8, 0.75);
+            background: rgba(18, 5, 8, 0.85);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border: 1px solid rgba(225, 29, 72, 0.25);
@@ -46,14 +45,13 @@
         }
 
         .glass-header {
-            background: rgba(10, 2, 4, 0.85);
+            background: rgba(10, 2, 4, 0.90);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             border-bottom: 1px solid rgba(225, 29, 72, 0.3);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
         }
 
-        /* Red Neon glow effect */
         .red-glow {
             box-shadow: 0 0 20px rgba(225, 29, 72, 0.35);
         }
@@ -62,7 +60,6 @@
             box-shadow: 0 0 35px rgba(225, 29, 72, 0.5);
         }
 
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -86,7 +83,6 @@
             box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.9), 0 0 25px rgba(225, 29, 72, 0.3);
         }
 
-        /* Modal animation */
         @keyframes modalFadeIn {
             from { opacity: 0; transform: scale(0.9) translateY(10px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
@@ -94,13 +90,20 @@
         .animate-modal {
             animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.08); opacity: 1; }
+        }
+        .pulse-music {
+            animation: pulseGlow 2s infinite ease-in-out;
+        }
     </style>
 </head>
 <body class="relative overflow-x-hidden selection:bg-rose-900 selection:text-white">
 
     <canvas id="particles-canvas"></canvas>
 
-    <!-- Content Wrapper -->
     <div class="relative z-10 flex flex-col min-h-screen">
 
         <header class="glass-header sticky top-0 z-30 px-4 py-4 transition-all">
@@ -115,7 +118,6 @@
                     </div>
                 </div>
 
-                <!-- Action Button for Random Reason -->
                 <button id="btn-random" class="flex items-center gap-2 bg-gradient-to-r from-rose-700 via-red-600 to-rose-800 hover:from-rose-600 hover:to-red-700 text-white font-medium px-5 py-2.5 rounded-full red-glow hover:red-glow-lg transition-all transform active:scale-95 border border-rose-400/30">
                     <i data-lucide="sparkles" class="w-4 h-4 text-rose-200"></i>
                     <span>Razón Sorpresa</span>
@@ -125,7 +127,6 @@
 
         <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
             
-            <!-- Progress & Stats Banner -->
             <section class="glass-card rounded-2xl p-6 mb-8 border border-rose-900/50">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                     <div>
@@ -161,7 +162,6 @@
             </section>
 
             <section class="flex flex-col md:flex-row gap-4 mb-8 justify-between items-center">
-                <!-- Filter Buttons -->
                 <div class="flex flex-wrap gap-2 w-full md:w-auto">
                     <button data-filter="all" class="filter-btn active bg-gradient-to-r from-rose-700 to-red-600 text-white px-4 py-2 rounded-xl text-sm font-medium transition-all shadow-sm border border-rose-500/30">
                         Todas (200)
@@ -177,7 +177,6 @@
                     </button>
                 </div>
 
-                <!-- Search Input -->
                 <div class="relative w-full md:w-72">
                     <input type="text" id="search-input" placeholder="Buscar una palabra o razón..." class="w-full pl-10 pr-4 py-2 rounded-xl glass-card text-sm text-rose-100 focus:outline-none focus:ring-2 focus:ring-rose-500 border border-rose-900/50 placeholder-rose-700/70">
                     <i data-lucide="search" class="w-4 h-4 text-rose-500 absolute left-3 top-2.5"></i>
@@ -185,10 +184,9 @@
             </section>
 
             <section id="cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Cards will be populated dynamically -->
+                <!-- Cards populate dynamically -->
             </section>
 
-            <!-- Empty State Message -->
             <div id="empty-state" class="hidden text-center py-16">
                 <div class="w-16 h-16 bg-rose-950/60 border border-rose-800/40 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i data-lucide="heart-off" class="w-8 h-8"></i>
@@ -201,6 +199,43 @@
         <footer class="mt-auto py-6 text-center text-rose-400/50 text-xs border-t border-rose-950/60 bg-black/60 backdrop-blur-sm">
             <p>Hecho con ❤️ en la penumbra más dulce para ti. Eres mi razón eterna.</p>
         </footer>
+    </div>
+
+    <!-- Elemento Audio oculto -->
+    <audio id="audio-element" src="cant-help-falling-in-love.mp3" preload="auto" loop></audio>
+
+    <div id="audio-player-container" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:w-96 z-40 glass-card rounded-2xl p-4 border border-rose-600/40 red-glow">
+        <div class="flex items-center gap-3 mb-2">
+            <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-rose-800 to-red-950 flex items-center justify-center border border-rose-500/30 flex-shrink-0 relative overflow-hidden">
+                <i data-lucide="music" id="music-disc-icon" class="w-5 h-5 text-rose-300"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+                <h4 id="song-title" class="text-xs font-bold text-rose-100 truncate">Can't Help Falling in Love</h4>
+                <p id="song-artist" class="text-[11px] text-rose-400/80 truncate">Elvis Presley (Audio Original)</p>
+            </div>
+            <button id="toggle-player-collapse" class="text-rose-400 hover:text-white p-1">
+                <i data-lucide="chevron-down" id="collapse-icon" class="w-4 h-4"></i>
+            </button>
+        </div>
+
+        <div id="player-extended-controls" class="space-y-2 pt-1">
+            <div class="w-full bg-rose-950/80 rounded-full h-1.5 overflow-hidden border border-rose-900/40 cursor-pointer" id="progress-container">
+                <div id="music-progress" class="bg-gradient-to-r from-rose-500 to-red-500 h-full rounded-full transition-all duration-100" style="width: 0%"></div>
+            </div>
+
+            <div class="flex items-center justify-between pt-1">
+                <div class="text-[10px] text-rose-400/60 font-mono" id="time-display">0:00 / 0:00</div>
+                <div class="flex items-center gap-3">
+                    <button id="btn-play-pause" class="w-9 h-9 rounded-full bg-gradient-to-r from-rose-600 to-red-600 text-white flex items-center justify-center hover:scale-105 transition-transform red-glow" title="Reproducir / Pausar">
+                        <i data-lucide="play" id="play-icon" class="w-4 h-4 fill-current"></i>
+                    </button>
+                </div>
+                <div class="flex items-center gap-1">
+                    <i data-lucide="volume-2" class="w-3.5 h-3.5 text-rose-400"></i>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.8" class="w-14 h-1 accent-rose-500 cursor-pointer">
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="reason-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
@@ -233,7 +268,6 @@
     </div>
 
     <script>
-        // Data containing all 200 romantic reasons
         const reasonsList = [
             "Por la forma única en que me miras cuando crees que no me doy cuenta.",
             "Porque tu sonrisa tiene el poder de calmar cualquier tormenta en mi día.",
@@ -354,7 +388,7 @@
             "Por tu honestidad sin filtros, siempre con tacto y amor.",
             "Porque eres mi refugio en los días grises.",
             "Por la solidez de tu apoyo en mis metas profesionales y personales.",
-            "Porque tus Besos tienen el sabor a la felicidad pura.",
+            "Porque tus besos tienen el sabor a la felicidad pura.",
             "Por la magia de tus mensajes espontáneos durante el día.",
             "Porque con una sola mirada sabes exactamente lo que estoy pensando.",
             "Por la delicadeza con la que tratas mis sentimientos.",
@@ -440,6 +474,76 @@
         function saveState() {
             localStorage.setItem('reasons_read', JSON.stringify([...state.read]));
             localStorage.setItem('reasons_favs', JSON.stringify([...state.favs]));
+        }
+
+        // Lógica del Reproductor Audio HTML5
+        const audio = document.getElementById('audio-element');
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    updatePlayerState(true);
+                }).catch(err => {
+                    console.log("Autoplay bloqueado por el navegador o archivo no encontrado:", err);
+                });
+            } else {
+                audio.pause();
+                updatePlayerState(false);
+            }
+        }
+
+        function updatePlayerState(isPlaying) {
+            const playIcon = document.getElementById('play-icon');
+            const discIcon = document.getElementById('music-disc-icon');
+
+            if (isPlaying) {
+                playIcon.setAttribute('data-lucide', 'pause');
+                discIcon.classList.add('pulse-music');
+            } else {
+                playIcon.setAttribute('data-lucide', 'play');
+                discIcon.classList.remove('pulse-music');
+            }
+            lucide.createIcons();
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60).toString().padStart(2, '0');
+            return `${min}:${sec}`;
+        }
+
+        // Eventos del Audio
+        audio.addEventListener('timeupdate', () => {
+            if (audio.duration) {
+                const progressPct = (audio.currentTime / audio.duration) * 100;
+                document.getElementById('music-progress').style.width = `${progressPct}%`;
+                document.getElementById('time-display').innerText = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+            }
+        });
+
+        // Click en la barra de progreso
+        document.getElementById('progress-container').addEventListener('click', (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            if (audio.duration) {
+                audio.currentTime = pos * audio.duration;
+            }
+        });
+
+        // Autoplay tras el primer clic del usuario
+        function setupAutoplayListener() {
+            const handleFirstInteraction = () => {
+                if (audio.paused) {
+                    audio.play().then(() => {
+                        updatePlayerState(true);
+                    }).catch(() => {});
+                }
+                window.removeEventListener('click', handleFirstInteraction);
+                window.removeEventListener('keydown', handleFirstInteraction);
+            };
+            window.addEventListener('click', handleFirstInteraction);
+            window.addEventListener('keydown', handleFirstInteraction);
         }
 
         function renderCards() {
@@ -541,7 +645,6 @@
             renderCards();
         };
 
-        // Modal Logic
         let currentModalId = 1;
 
         window.openModal = function(id) {
@@ -576,68 +679,6 @@
             }
             lucide.createIcons();
         }
-
-        document.getElementById('close-modal').addEventListener('click', () => {
-            document.getElementById('reason-modal').classList.add('hidden');
-        });
-
-        document.getElementById('modal-btn-fav').addEventListener('click', () => {
-            toggleFav(currentModalId);
-            updateModalFavBtn();
-        });
-
-        document.getElementById('modal-btn-next').addEventListener('click', () => {
-            let nextId;
-            do {
-                nextId = Math.floor(Math.random() * reasonsList.length) + 1;
-            } while (nextId === currentModalId && reasonsList.length > 1);
-            openModal(nextId);
-        });
-
-        // Random Reason Button Top Bar
-        document.getElementById('btn-random').addEventListener('click', () => {
-            const randomId = Math.floor(Math.random() * reasonsList.length) + 1;
-            openModal(randomId);
-        });
-
-        // Filter Buttons
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn').forEach(b => {
-                    b.classList.remove('bg-gradient-to-r', 'from-rose-700', 'to-red-600', 'text-white', 'active', 'border-rose-500/30');
-                    b.classList.add('bg-stone-950/70', 'text-rose-300', 'border-rose-900/40');
-                });
-                btn.classList.remove('bg-stone-950/70', 'text-rose-300', 'border-rose-900/40');
-                btn.classList.add('bg-gradient-to-r', 'from-rose-700', 'to-red-600', 'text-white', 'active', 'border-rose-500/30');
-
-                state.filter = btn.getAttribute('data-filter');
-                renderCards();
-            });
-        });
-
-        // Search Input
-        document.getElementById('search-input').addEventListener('input', (e) => {
-            state.search = e.target.value;
-            renderCards();
-        });
-
-        // Bulk Actions
-        document.getElementById('btn-mark-all').addEventListener('click', () => {
-            for (let i = 1; i <= reasonsList.length; i++) {
-                state.read.add(i);
-            }
-            saveState();
-            renderCards();
-        });
-
-        document.getElementById('btn-reset').addEventListener('click', () => {
-            if (confirm('¿Quieres reiniciar tu progreso de lectura y favoritos?')) {
-                state.read.clear();
-                state.favs.clear();
-                saveState();
-                renderCards();
-            }
-        });
 
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
@@ -685,7 +726,6 @@
                 ctx.shadowColor = '#e11d48';
                 ctx.shadowBlur = 8;
                 
-                // Draw heart shape
                 ctx.beginPath();
                 const topCurveHeight = this.size * 0.3;
                 ctx.moveTo(0, topCurveHeight);
@@ -715,6 +755,87 @@
             lucide.createIcons();
             renderCards();
             animateParticles();
+            setupAutoplayListener();
+
+            // Controles del Reproductor Audio
+            document.getElementById('btn-play-pause').addEventListener('click', toggleMusic);
+            
+            document.getElementById('volume-slider').addEventListener('input', (e) => {
+                audio.volume = parseFloat(e.target.value);
+            });
+
+            document.getElementById('toggle-player-collapse').addEventListener('click', () => {
+                const controls = document.getElementById('player-extended-controls');
+                const icon = document.getElementById('collapse-icon');
+                if (controls.classList.contains('hidden')) {
+                    controls.classList.remove('hidden');
+                    icon.setAttribute('data-lucide', 'chevron-down');
+                } else {
+                    controls.classList.add('hidden');
+                    icon.setAttribute('data-lucide', 'chevron-up');
+                }
+                lucide.createIcons();
+            });
+
+            // Listeners Modal
+            document.getElementById('close-modal').addEventListener('click', () => {
+                document.getElementById('reason-modal').classList.add('hidden');
+            });
+
+            document.getElementById('modal-btn-fav').addEventListener('click', () => {
+                toggleFav(currentModalId);
+                updateModalFavBtn();
+            });
+
+            document.getElementById('modal-btn-next').addEventListener('click', () => {
+                let nextId;
+                do {
+                    nextId = Math.floor(Math.random() * reasonsList.length) + 1;
+                } while (nextId === currentModalId && reasonsList.length > 1);
+                openModal(nextId);
+            });
+
+            document.getElementById('btn-random').addEventListener('click', () => {
+                const randomId = Math.floor(Math.random() * reasonsList.length) + 1;
+                openModal(randomId);
+            });
+
+            // Botones de filtro
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('bg-gradient-to-r', 'from-rose-700', 'to-red-600', 'text-white', 'active', 'border-rose-500/30');
+                        b.classList.add('bg-stone-950/70', 'text-rose-300', 'border-rose-900/40');
+                    });
+                    btn.classList.remove('bg-stone-950/70', 'text-rose-300', 'border-rose-900/40');
+                    btn.classList.add('bg-gradient-to-r', 'from-rose-700', 'to-red-600', 'text-white', 'active', 'border-rose-500/30');
+
+                    state.filter = btn.getAttribute('data-filter');
+                    renderCards();
+                });
+            });
+
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                state.search = e.target.value;
+                renderCards();
+            });
+
+            document.getElementById('btn-mark-all').addEventListener('click', () => {
+                for (let i = 1; i <= reasonsList.length; i++) {
+                    state.read.add(i);
+                }
+                saveState();
+                renderCards();
+            });
+
+            document.getElementById('btn-reset').addEventListener('click', () => {
+                if (confirm('¿Quieres reiniciar tu progreso de lectura y favoritos?')) {
+                    state.read.clear();
+                    state.favs.clear();
+                    saveState();
+                    renderCards();
+                }
+            });
         };
     </script>
 </body>
